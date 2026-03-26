@@ -3,16 +3,7 @@
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { motion, useInView } from "framer-motion";
-
-type Budget = "$" | "$$" | "$$$";
-type Experience = "Beginner" | "Intermediate" | "Expert";
-type Style = "Relaxed" | "Active";
-
-interface Preferences {
-  budget: Budget;
-  experience: Experience;
-  style: Style;
-}
+import { Budget, Experience, Style, Preferences } from "@/lib/types";
 
 function PillGroup<T extends string>({
   options,
