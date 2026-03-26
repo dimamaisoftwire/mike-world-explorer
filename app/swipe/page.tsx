@@ -82,14 +82,14 @@ export default function SwipePage() {
   }
 
   return (
-    <div className="flex flex-col items-center min-h-dvh px-6 pt-6 pb-20">
+    <div className="flex flex-col items-center justify-center min-h-dvh px-6 py-6 pb-20">
       {/* Progress */}
       <div className="text-sm font-medium text-muted mb-4">
         {currentIndex + 1} / {total}
       </div>
 
       {/* Card stack */}
-      <div className="relative w-full max-w-sm aspect-[3/4] mb-6">
+      <div className="relative w-full max-w-xs aspect-[3/5] mb-6">
         <AnimatePresence>
           {visibleCards
             .slice()
