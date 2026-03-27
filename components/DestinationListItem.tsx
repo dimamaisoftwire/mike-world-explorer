@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Destination } from "@/lib/types";
 import { useState } from "react";
 
@@ -22,15 +23,17 @@ export default function DestinationListItem({
     <div className="bg-card-bg rounded-xl overflow-hidden shadow-sm">
       <div className="flex gap-3 p-3">
         <div 
-          className="rounded-lg overflow-hidden bg-muted/20 flex-shrink-0"
+          className="rounded-lg overflow-hidden bg-muted/20 flex-shrink-0 relative"
           style={{ width: THUMBNAIL_SIZE, height: THUMBNAIL_SIZE }}
         >
           {!imageError ? (
-            <img
+            <Image
               src={destination.imageUrl}
-              alt={destination.name}
-              className="w-full h-full object-cover"
+              alt={`${destination.name}, ${destination.country}`}
+              fill
+              className="object-cover"
               onError={() => setImageError(true)}
+              sizes="80px"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">

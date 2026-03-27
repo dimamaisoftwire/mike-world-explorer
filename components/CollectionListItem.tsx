@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { Collection } from "@/lib/types";
 
 const TAP_SCALE = 0.98;
@@ -21,9 +22,6 @@ export default function CollectionListItem({
   likedCollectionId,
 }: CollectionListItemProps) {
   const isLiked = collection.id === likedCollectionId;
-  const previewImages = collection.destinations
-    .slice(0, MAX_PREVIEW_IMAGES)
-    .map((d) => d.imageUrl);
   return (
     <motion.div
       className="bg-card-bg rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
@@ -41,18 +39,20 @@ export default function CollectionListItem({
             <p className="text-sm text-muted">{collection.count} {collection.count === 1 ? 'place' : 'places'}</p>
           </div>
 
-          {previewImages.length > 0 && (
+          {collection.destinations.length > 0 && (
             <div className="flex -space-x-2">
-              {previewImages.map((img, idx) => (
+              {collection.destinations.slice(0, MAX_PREVIEW_IMAGES).map((dest, idx) => (
                 <div
                   key={idx}
-                  className="rounded-full border-2 border-card-bg overflow-hidden bg-muted/20"
+                  className="rounded-full border-2 border-card-bg overflow-hidden bg-muted/20 relative"
                   style={{ width: PREVIEW_THUMBNAIL_SIZE, height: PREVIEW_THUMBNAIL_SIZE }}
                 >
-                  <img
-                    src={img}
-                    alt=""
-                    className="w-full h-full object-cover"
+                  <Image
+                    src={dest.imageUrl}
+                    alt={`${dest.name}, ${dest.country}`}
+                    fill
+                    className="object-cover"
+                    sizes="40px"
                   />
                 </div>
               ))}
