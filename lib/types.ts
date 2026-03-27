@@ -1,3 +1,5 @@
+export type Theme = "food" | "beach" | "sightseeing" | "beginner";
+
 export type Budget = "$" | "$$" | "$$$";
 export type Experience = "Beginner" | "Intermediate" | "Expert";
 export type Style = "Relaxed" | "Active";
