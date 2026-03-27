@@ -1,4 +1,4 @@
-import { Destination } from "./types";
+import { Destination, Collection } from "./types";
 
 export const mockDestinations: Destination[] = [
   {
@@ -38,15 +38,7 @@ export const mockDestinations: Destination[] = [
   },
 ];
 
-export interface MockCollection {
-  id: string;
-  name: string;
-  emoji: string;
-  count: number;
-  destinations: Destination[];
-}
-
-export const mockCollections: MockCollection[] = [
+export const mockCollections: Collection[] = [
   {
     id: "liked",
     name: "Liked",

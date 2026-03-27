@@ -1,30 +1,29 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Collection } from "@/lib/types";
 
 const TAP_SCALE = 0.98;
 const MAX_PREVIEW_IMAGES = 3;
 const PREVIEW_THUMBNAIL_SIZE = 40;
 
 interface CollectionListItemProps {
-  name: string;
-  emoji: string;
-  count: number;
-  previewImages: string[];
+  collection: Collection;
   onClick: () => void;
   onEdit?: () => void;
-  isLiked?: boolean;
+  likedCollectionId: string;
 }
 
 export default function CollectionListItem({
-  name,
-  emoji,
-  count,
-  previewImages,
+  collection,
   onClick,
   onEdit,
-  isLiked = false,
+  likedCollectionId,
 }: CollectionListItemProps) {
+  const isLiked = collection.id === likedCollectionId;
+  const previewImages = collection.destinations
+    .slice(0, MAX_PREVIEW_IMAGES)
+    .map((d) => d.imageUrl);
   return (
     <motion.div
       className="bg-card-bg rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
@@ -35,16 +34,16 @@ export default function CollectionListItem({
           onClick={onClick}
           className="flex-1 flex items-center gap-3 min-h-[44px]"
         >
-          <span className="text-3xl">{emoji}</span>
+          <span className="text-3xl">{collection.emoji}</span>
           
           <div className="flex-1 text-left">
-            <h3 className="font-semibold text-foreground">{name}</h3>
-            <p className="text-sm text-muted">{count} {count === 1 ? 'place' : 'places'}</p>
+            <h3 className="font-semibold text-foreground">{collection.name}</h3>
+            <p className="text-sm text-muted">{collection.count} {collection.count === 1 ? 'place' : 'places'}</p>
           </div>
 
           {previewImages.length > 0 && (
             <div className="flex -space-x-2">
-              {previewImages.slice(0, MAX_PREVIEW_IMAGES).map((img, idx) => (
+              {previewImages.map((img, idx) => (
                 <div
                   key={idx}
                   className="rounded-full border-2 border-card-bg overflow-hidden bg-muted/20"

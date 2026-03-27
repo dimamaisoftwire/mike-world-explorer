@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Destination } from "@/lib/types";
 import DestinationListItem from "@/components/DestinationListItem";
-import EmptyState from "./EmptyState";
+import EmptyListView from "./EmptyListView";
 
 interface DestinationsListViewProps {
   destinations: Destination[];
@@ -28,7 +28,7 @@ export default function DestinationsListView({
       className="px-6 py-6"
     >
       {destinations.length === 0 ? (
-        <EmptyState
+        <EmptyListView
           icon="📭"
           title="Collection is empty"
           description="Move items from other collections or swipe to add new destinations."

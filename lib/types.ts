@@ -15,3 +15,11 @@ export interface Destination {
   description: string;
   imageUrl: string;
 }
+
+export interface Collection {
+  id: string;
+  name: string;
+  emoji: string;
+  count: number;
+  destinations: Destination[];
+}
