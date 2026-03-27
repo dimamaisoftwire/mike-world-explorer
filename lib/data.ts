@@ -1,4 +1,4 @@
-import { Destination, Itinerary, Preferences } from "./types";
+import { Destination, Itinerary, Preferences, Theme } from "./types";
 import { mockItineraries } from "./mockData";
 
 const mockDestinations: Destination[] = [
@@ -114,9 +114,221 @@ const mockDestinations: Destination[] = [
   },
 ];
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export async function getDestinations(_preferences?: Preferences): Promise<Destination[]> {
-  // TODO: Replace with AI API call that uses preferences to generate personalised destinations
+const themedDestinations: Record<Theme, Destination[]> = {
+  food: [
+    {
+      id: "food-1",
+      name: "Tokyo",
+      country: "Japan",
+      description: "From Michelin-starred sushi bars to steaming ramen alleys — the world's greatest food city.",
+      imageUrl: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=600&h=800&fit=crop",
+      activities: ["Tsukiji Outer Market tuna tasting", "Ramen crawl in Shinjuku", "Sushi omakase experience", "Depachika basement food halls"],
+      bestTime: "March – May & October – November",
+      tip: "Hit the izakayas under the train tracks at Yurakucho for the most authentic local experience.",
+    },
+    {
+      id: "food-2",
+      name: "Bologna",
+      country: "Italy",
+      description: "The culinary heart of Italy — home of ragù, tortellini, and the finest Parmigiano Reggiano.",
+      imageUrl: "https://images.unsplash.com/photo-1523906834658-6e0404a6b908?w=600&h=800&fit=crop",
+      activities: ["Pasta-making class", "Mercato delle Erbe food tour", "Parmigiano Reggiano factory visit", "Gelato tasting on Via Drapperie"],
+      bestTime: "April – June & September – October",
+      tip: "Skip tourist restaurants on the main piazza — duck into the side streets for the real trattorias.",
+    },
+    {
+      id: "food-3",
+      name: "Bangkok",
+      country: "Thailand",
+      description: "Legendary street food, floating markets, and bold flavours that define Southeast Asian cuisine.",
+      imageUrl: "https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=600&h=800&fit=crop",
+      activities: ["Chinatown street food crawl", "Cooking class in Silom", "Floating market boat tour", "Pad Thai at Thipsamai"],
+      bestTime: "November – February (cool season)",
+      tip: "Follow the longest queues — locals always know the best stalls.",
+    },
+    {
+      id: "food-4",
+      name: "Mexico City",
+      country: "Mexico",
+      description: "Tacos al pastor at dawn, mole negro at dusk — a megacity built on incredible food traditions.",
+      imageUrl: "https://images.unsplash.com/photo-1585464231875-d9ef1f5ad396?w=600&h=800&fit=crop",
+      activities: ["Taco tour in Condesa", "Mercado de San Juan gourmet market", "Mezcal tasting", "Churros at El Moro"],
+      bestTime: "March – May",
+      tip: "Don't miss the blue-corn quesadillas from market vendors — they're nothing like what you get elsewhere.",
+    },
+    {
+      id: "food-5",
+      name: "Lyon",
+      country: "France",
+      description: "France's gastronomic capital, famous for its bouchons, charcuterie, and Beaujolais wine.",
+      imageUrl: "https://images.unsplash.com/photo-1524396309943-e03f5249f002?w=600&h=800&fit=crop",
+      activities: ["Lunch at a traditional bouchon", "Les Halles de Lyon food hall", "Beaujolais vineyard day trip", "Chocolate tasting in Vieux Lyon"],
+      bestTime: "May – September",
+      tip: "Book bouchon tables at lunch — many close for dinner or fill up fast.",
+    },
+  ],
+  beach: [
+    {
+      id: "beach-1",
+      name: "Maldives",
+      country: "Maldives",
+      description: "Crystal-clear lagoons, overwater villas, and some of the most pristine beaches on Earth.",
+      imageUrl: "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=600&h=800&fit=crop",
+      activities: ["Snorkelling with manta rays", "Sunset dolphin cruise", "Overwater spa treatment", "Sandbank picnic"],
+      bestTime: "November – April (dry season)",
+      tip: "Consider a local island guesthouse for a fraction of the resort price with the same beaches.",
+    },
+    {
+      id: "beach-2",
+      name: "Zanzibar",
+      country: "Tanzania",
+      description: "Turquoise waters, spice-scented breezes, and powdery white sand off the East African coast.",
+      imageUrl: "https://images.unsplash.com/photo-1547560601-3e44f6ae9b47?w=600&h=800&fit=crop",
+      activities: ["Stone Town walking tour", "Spice farm visit", "Swim in the disappearing sandbar", "Dhow sunset sail"],
+      bestTime: "June – October",
+      tip: "The east coast has the best beaches but check tide times — the water recedes far at low tide.",
+    },
+    {
+      id: "beach-3",
+      name: "Tulum",
+      country: "Mexico",
+      description: "Bohemian beach town with ancient Mayan ruins perched above Caribbean turquoise waters.",
+      imageUrl: "https://images.unsplash.com/photo-1682553064284-1a5e6263a3ee?w=600&h=800&fit=crop",
+      activities: ["Ruins overlooking the sea", "Cenote swimming", "Beach club hopping", "Bike ride along the coast road"],
+      bestTime: "December – April",
+      tip: "Rent a bike — the beach road is car-free in many stretches and parking is a nightmare.",
+    },
+    {
+      id: "beach-4",
+      name: "Seychelles",
+      country: "Seychelles",
+      description: "Giant granite boulders frame impossibly perfect beaches on these remote Indian Ocean islands.",
+      imageUrl: "https://images.unsplash.com/photo-1589979481223-deb893043163?w=600&h=800&fit=crop",
+      activities: ["Anse Source d'Argent beach day", "Vallée de Mai nature reserve", "Island hopping by ferry", "Snorkelling at Sainte Anne Marine Park"],
+      bestTime: "April – May & October – November",
+      tip: "Mahé, Praslin and La Digue are all different vibes — try to visit at least two.",
+    },
+    {
+      id: "beach-5",
+      name: "Phi Phi Islands",
+      country: "Thailand",
+      description: "Dramatic limestone cliffs rising from emerald waters — Thailand's most iconic island scenery.",
+      imageUrl: "https://images.unsplash.com/photo-1548625149-fc4a29cf7092?w=600&h=800&fit=crop",
+      activities: ["Long-tail boat tour", "Snorkelling at Maya Bay", "Viewpoint hike at sunset", "Night beach party"],
+      bestTime: "November – April",
+      tip: "Stay on Phi Phi Don and day-trip to Phi Phi Leh — it's cheaper and you dodge the day-tripper crowds.",
+    },
+  ],
+  sightseeing: [
+    {
+      id: "sight-1",
+      name: "Rome",
+      country: "Italy",
+      description: "The Eternal City — layers of ancient ruins, Renaissance art, and baroque fountains at every turn.",
+      imageUrl: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=600&h=800&fit=crop",
+      activities: ["Colosseum & Roman Forum tour", "Vatican Museums & Sistine Chapel", "Toss a coin in Trevi Fountain", "Sunset at Pincian Hill"],
+      bestTime: "April – June & September – October",
+      tip: "Book skip-the-line tickets for the Vatican — the queue can be 3+ hours in peak season.",
+    },
+    {
+      id: "sight-2",
+      name: "Cairo",
+      country: "Egypt",
+      description: "Stand before the last surviving Wonder of the Ancient World and explore 5,000 years of history.",
+      imageUrl: "https://images.unsplash.com/photo-1572252009286-268acec5ca0a?w=600&h=800&fit=crop",
+      activities: ["Pyramids of Giza & Sphinx", "Egyptian Museum tour", "Khan el-Khalili bazaar", "Nile felucca ride at sunset"],
+      bestTime: "October – April (cooler months)",
+      tip: "Hire a licensed guide at the Pyramids — it's worth it to skip the touts and learn the real history.",
+    },
+    {
+      id: "sight-3",
+      name: "Istanbul",
+      country: "Turkey",
+      description: "Where East meets West — stunning mosques, grand bazaars, and the shimmering Bosphorus strait.",
+      imageUrl: "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=600&h=800&fit=crop",
+      activities: ["Hagia Sophia visit", "Grand Bazaar exploration", "Bosphorus ferry cruise", "Turkish bath experience"],
+      bestTime: "April – May & September – November",
+      tip: "Get an Istanbulkart transit card — it works on ferries, trams, and buses and saves a lot.",
+    },
+    {
+      id: "sight-4",
+      name: "Cusco",
+      country: "Peru",
+      description: "Gateway to Machu Picchu and the heart of the ancient Inca Empire high in the Andes.",
+      imageUrl: "https://images.unsplash.com/photo-1526392060635-9d6019884377?w=600&h=800&fit=crop",
+      activities: ["Machu Picchu day trip", "Sacsayhuamán fortress", "San Pedro Market", "Sacred Valley tour"],
+      bestTime: "May – September (dry season)",
+      tip: "Spend 2 days acclimatising to the altitude in Cusco before hiking — it makes a huge difference.",
+    },
+    {
+      id: "sight-5",
+      name: "Angkor",
+      country: "Cambodia",
+      description: "The sprawling temple complex of the Khmer Empire — Angkor Wat alone is breathtaking at sunrise.",
+      imageUrl: "https://images.unsplash.com/photo-1600100397608-e4b8e5ecc48e?w=600&h=800&fit=crop",
+      activities: ["Angkor Wat sunrise", "Explore overgrown Ta Prohm", "Bayon temple faces", "Floating village on Tonle Sap"],
+      bestTime: "November – February",
+      tip: "Buy the 3-day pass — there are hundreds of temples and rushing through in one day is exhausting.",
+    },
+  ],
+  beginner: [
+    {
+      id: "beg-1",
+      name: "Lisbon",
+      country: "Portugal",
+      description: "Affordable, safe, and easy to navigate — sunny Lisbon is the perfect first European adventure.",
+      imageUrl: "https://images.unsplash.com/photo-1585208798174-6cedd86e019a?w=600&h=800&fit=crop",
+      activities: ["Ride Tram 28 through Alfama", "Pastéis de Belém tasting", "Sunset at Miradouro da Graça", "Day trip to Sintra"],
+      bestTime: "March – May & September – October",
+      tip: "The Lisboa Card covers unlimited transport and free entry to many museums — great value for first-timers.",
+    },
+    {
+      id: "beg-2",
+      name: "Singapore",
+      country: "Singapore",
+      description: "Ultra-clean, English-speaking, and incredibly efficient — the easiest entry point to Asia.",
+      imageUrl: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=600&h=800&fit=crop",
+      activities: ["Gardens by the Bay light show", "Hawker centre food tour", "Marina Bay Sands SkyPark", "Sentosa Island beach day"],
+      bestTime: "February – April (driest months)",
+      tip: "Eat at hawker centres — you'll get incredible food for under $5 a meal.",
+    },
+    {
+      id: "beg-3",
+      name: "Dublin",
+      country: "Ireland",
+      description: "Friendly locals, no language barrier, and pubs that feel like your living room — ideal for solo travellers.",
+      imageUrl: "https://images.unsplash.com/photo-1549918864-48ac978761a4?w=600&h=800&fit=crop",
+      activities: ["Temple Bar pub crawl", "Trinity College & Book of Kells", "Cliffs of Moher day trip", "Guinness Storehouse tour"],
+      bestTime: "May – September",
+      tip: "Pack layers and a rain jacket no matter when you visit — Irish weather changes by the hour.",
+    },
+    {
+      id: "beg-4",
+      name: "Vancouver",
+      country: "Canada",
+      description: "Mountains, ocean, and city in one — a safe, multicultural gateway for new travellers.",
+      imageUrl: "https://images.unsplash.com/photo-1559511260-66a654ae982a?w=600&h=800&fit=crop",
+      activities: ["Stanley Park seawall walk", "Granville Island market", "Capilano Suspension Bridge", "Whale watching tour"],
+      bestTime: "June – September",
+      tip: "Get a Compass Card for transit — it covers buses, SkyTrain, and the SeaBus to North Van.",
+    },
+    {
+      id: "beg-5",
+      name: "Barcelona",
+      country: "Spain",
+      description: "Beach, culture, and incredible food all in one walkable city — hard to go wrong here.",
+      imageUrl: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=600&h=800&fit=crop",
+      activities: ["Sagrada Família visit", "Stroll along La Rambla", "Beach at Barceloneta", "Gothic Quarter exploration"],
+      bestTime: "May – June & September – October",
+      tip: "Book Sagrada Família tickets online weeks in advance — walk-ups are almost never available.",
+    },
+  ],
+};
+
+export async function getDestinations(_preferences?: Preferences, theme?: Theme): Promise<Destination[]> {
+  if (theme && themedDestinations[theme]) {
+    return [...themedDestinations[theme]];
+  }
   return [...mockDestinations];
 }
 

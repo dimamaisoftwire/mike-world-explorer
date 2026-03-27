@@ -1,15 +1,47 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { Suspense, useState, useEffect, useCallback } from "react";
+import { useSearchParams } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
-import { Destination, Preferences } from "@/lib/types";
+import { Destination, Preferences, Theme } from "@/lib/types";
 import { getDestinations } from "@/lib/data";
 import { addLiked } from "@/lib/storage";
 import SwipeCard from "@/components/SwipeCard";
+import SwipeActions from "@/components/SwipeActions";
+import SwipeEndScreen from "@/components/SwipeEndScreen";
 import CollectionPopup from "@/components/CollectionPopup";
-import Link from "next/link";
+
+const themeLabels: Record<Theme, string> = {
+  food: "Food Holidays",
+  beach: "Beach Holidays",
+  sightseeing: "Sightseeing Holidays",
+  beginner: "New to Travelling",
+};
+
+const validThemes: Theme[] = ["food", "beach", "sightseeing", "beginner"];
 
 export default function SwipePage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex flex-col items-center justify-center min-h-dvh px-6 pb-20">
+          <div className="text-4xl mb-4 animate-pulse">🌍</div>
+          <p className="text-muted text-sm font-medium">Loading destinations...</p>
+        </div>
+      }
+    >
+      <SwipeContent />
+    </Suspense>
+  );
+}
+
+function SwipeContent() {
+  const searchParams = useSearchParams();
+  const themeParam = searchParams.get("theme");
+  const theme: Theme | undefined = validThemes.includes(themeParam as Theme)
+    ? (themeParam as Theme)
+    : undefined;
+
   const [cards, setCards] = useState<Destination[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [popupDestination, setPopupDestination] = useState<Destination | null>(null);
@@ -19,11 +51,11 @@ export default function SwipePage() {
     setLoading(true);
     const raw = localStorage.getItem("preferences");
     const prefs: Preferences | undefined = raw ? JSON.parse(raw) : undefined;
-    const data = await getDestinations(prefs);
+    const data = await getDestinations(prefs, theme);
     setCards(data);
     setCurrentIndex(0);
     setLoading(false);
-  }, []);
+  }, [theme]);
 
   useEffect(() => {
     loadCards();
@@ -54,41 +86,21 @@ export default function SwipePage() {
   }
 
   if (done) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-dvh px-6 pb-20 gap-6 text-center">
-        <div className="text-5xl">🎉</div>
-        <h2 className="text-2xl font-bold text-foreground">
-          You&apos;ve explored all cards!
-        </h2>
-        <p className="text-muted text-sm max-w-xs">
-          Check your collections or load a fresh batch of destinations.
-        </p>
-        <div className="flex flex-col gap-3 w-full max-w-xs">
-          <button
-            onClick={loadCards}
-            className="w-full py-3 rounded-full bg-accent text-white font-semibold shadow-lg hover:bg-accent-hover active:scale-95 transition-all cursor-pointer min-h-[48px]"
-          >
-            Explore More
-          </button>
-          <Link
-            href="/collections"
-            className="w-full py-3 rounded-full bg-pill-bg text-foreground font-semibold text-center hover:bg-accent-light transition-colors min-h-[48px] flex items-center justify-center"
-          >
-            View Collections
-          </Link>
-        </div>
-      </div>
-    );
+    return <SwipeEndScreen onExploreMore={loadCards} />;
   }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-dvh px-6 py-6 pb-20">
-      {/* Progress */}
+      {theme && (
+        <div className="text-xs font-semibold uppercase tracking-wide text-accent mb-1">
+          {themeLabels[theme]}
+        </div>
+      )}
+
       <div className="text-sm font-medium text-muted mb-4">
         {currentIndex + 1} / {total}
       </div>
 
-      {/* Card stack */}
       <div className="relative w-full max-w-xs aspect-[3/5] mb-6">
         <AnimatePresence>
           {visibleCards
@@ -109,25 +121,8 @@ export default function SwipePage() {
         </AnimatePresence>
       </div>
 
-      {/* Action buttons */}
-      <div className="flex items-center gap-8">
-        <button
-          onClick={handleSwipeLeft}
-          className="w-14 h-14 rounded-full bg-red-50 text-red-500 flex items-center justify-center text-2xl shadow-md hover:bg-red-100 active:scale-90 transition-all cursor-pointer"
-          aria-label="Skip"
-        >
-          ✗
-        </button>
-        <button
-          onClick={handleSwipeRight}
-          className="w-14 h-14 rounded-full bg-green-50 text-green-500 flex items-center justify-center text-2xl shadow-md hover:bg-green-100 active:scale-90 transition-all cursor-pointer"
-          aria-label="Like"
-        >
-          ♥
-        </button>
-      </div>
+      <SwipeActions onSkip={handleSwipeLeft} onLike={handleSwipeRight} />
 
-      {/* Collection popup */}
       {popupDestination && (
         <CollectionPopup
           destination={popupDestination}
