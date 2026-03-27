@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import { AnimatePresence } from "framer-motion";
 import { Destination } from "@/lib/types";
-import { mockCollections } from "@/lib/mockData";
+import { mockCollections } from "@/lib/data";
 import CollectionsViewHeader from "./components/CollectionsViewHeader";
 import DestinationsViewHeader from "./components/DestinationsViewHeader";
 import CollectionsListView from "./components/CollectionsListView";
