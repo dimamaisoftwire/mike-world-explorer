@@ -7,6 +7,7 @@ import { Collection } from "@/lib/types";
 const TAP_SCALE = 0.98;
 const MAX_PREVIEW_IMAGES = 3;
 const PREVIEW_THUMBNAIL_SIZE = 40;
+const FALLBACK_IMAGE = "/fallback-destination.svg";
 
 interface CollectionListItemProps {
   collection: Collection;
@@ -52,6 +53,10 @@ export default function CollectionListItem({
                     alt={`${dest.name}, ${dest.country}`}
                     fill
                     className="object-cover"
+                    onError={(e) => {
+                      e.currentTarget.srcset = "";
+                      e.currentTarget.src = FALLBACK_IMAGE;
+                    }}
                     sizes="40px"
                   />
                 </div>

@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import { Destination } from "@/lib/types";
-import { useState } from "react";
 
 const THUMBNAIL_SIZE = 80;
+const FALLBACK_IMAGE = "/fallback-destination.svg";
 
 interface DestinationListItemProps {
   destination: Destination;
@@ -17,8 +17,6 @@ export default function DestinationListItem({
   onMove,
   onRemove,
 }: DestinationListItemProps) {
-  const [imageError, setImageError] = useState(false);
-
   return (
     <div className="bg-card-bg rounded-xl overflow-hidden shadow-sm">
       <div className="flex gap-3 p-3">
@@ -26,20 +24,17 @@ export default function DestinationListItem({
           className="rounded-lg overflow-hidden bg-muted/20 flex-shrink-0 relative"
           style={{ width: THUMBNAIL_SIZE, height: THUMBNAIL_SIZE }}
         >
-          {!imageError ? (
-            <Image
-              src={destination.imageUrl}
-              alt={`${destination.name}, ${destination.country}`}
-              fill
-              className="object-cover"
-              onError={() => setImageError(true)}
-              sizes="80px"
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center">
-              <span className="text-2xl">🌍</span>
-            </div>
-          )}
+          <Image
+            src={destination.imageUrl}
+            alt={`${destination.name}, ${destination.country}`}
+            fill
+            className="object-cover"
+            onError={(e) => {
+              e.currentTarget.srcset = "";
+              e.currentTarget.src = FALLBACK_IMAGE;
+            }}
+            sizes="80px"
+          />
         </div>
 
         <div className="flex-1 min-w-0">

@@ -6,6 +6,7 @@ import { motion, useMotionValue, useTransform, PanInfo, AnimatePresence } from "
 import { Destination } from "@/lib/types";
 
 const SWIPE_THRESHOLD = 100;
+const FALLBACK_IMAGE = "/fallback-destination.svg";
 
 interface SwipeCardProps {
   destination: Destination;
@@ -75,6 +76,10 @@ export default function SwipeCard({
           fill
           className="object-cover"
           draggable={false}
+          onError={(e) => {
+            e.currentTarget.srcset = "";
+            e.currentTarget.src = FALLBACK_IMAGE;
+          }}
           sizes="(max-width: 640px) 100vw, 640px"
           priority={isTop}
         />
