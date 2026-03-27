@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion, useMotionValue, useTransform, PanInfo, AnimatePresence } from "framer-motion";
 import { Destination } from "@/lib/types";
 
 const SWIPE_THRESHOLD = 100;
+const FALLBACK_IMAGE = "/fallback-destination.svg";
 
 interface SwipeCardProps {
   destination: Destination;
@@ -68,11 +70,18 @@ export default function SwipeCard({
         onClick={handleTap}
       >
         {/* Image */}
-        <img
+        <Image
           src={destination.imageUrl}
-          alt={destination.name}
-          className="absolute inset-0 w-full h-full object-cover"
+          alt={`${destination.name}, ${destination.country}`}
+          fill
+          className="object-cover"
           draggable={false}
+          onError={(e) => {
+            e.currentTarget.srcset = "";
+            e.currentTarget.src = FALLBACK_IMAGE;
+          }}
+          sizes="(max-width: 640px) 100vw, 640px"
+          priority={isTop}
         />
 
         {/* Gradient overlay */}

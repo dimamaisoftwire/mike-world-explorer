@@ -18,3 +18,11 @@ export interface Destination {
   bestTime: string;
   tip: string;
 }
+
+export interface Collection {
+  id: string;
+  name: string;
+  emoji: string;
+  count: number;
+  destinations: Destination[];
+}

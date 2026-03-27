@@ -1,4 +1,4 @@
-import { Destination, Preferences } from "./types";
+import { Destination, Preferences, Collection } from "./types";
 
 const mockDestinations: Destination[] = [
   {
@@ -110,6 +110,30 @@ const mockDestinations: Destination[] = [
     activities: ["Walk the Siq to the Treasury", "Hike to the Monastery", "Petra by Night candlelit tour", "Wadi Rum desert camp"],
     bestTime: "March – May & September – November",
     tip: "Buy a two-day pass — Petra is massive and one day barely scratches the surface.",
+  },
+];
+
+export const mockCollections: Collection[] = [
+  {
+    id: "liked",
+    name: "Liked",
+    emoji: "❤️",
+    count: 5,
+    destinations: mockDestinations,
+  },
+  {
+    id: "europe",
+    name: "Europe Trip",
+    emoji: "🇪🇺",
+    count: 3,
+    destinations: [mockDestinations[0], mockDestinations[3], mockDestinations[4]],
+  },
+  {
+    id: "beaches",
+    name: "Beach Destinations",
+    emoji: "🏖️",
+    count: 2,
+    destinations: [mockDestinations[2], mockDestinations[4]],
   },
 ];
 
