@@ -1,10 +1,10 @@
-interface EmptyStateProps {
+interface EmptyListViewProps {
   icon: string;
   title: string;
   description: string;
 }
 
-export default function EmptyState({ icon, title, description }: EmptyStateProps) {
+export default function EmptyListView({ icon, title, description }: EmptyListViewProps) {
   return (
     <div className="flex flex-col items-center justify-center py-20 text-center">
       <div className="text-5xl mb-4">{icon}</div>

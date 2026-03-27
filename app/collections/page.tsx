@@ -4,7 +4,8 @@ import { useState, useMemo } from "react";
 import { AnimatePresence } from "framer-motion";
 import { Destination } from "@/lib/types";
 import { mockCollections } from "@/lib/mockData";
-import CollectionsHeader from "./components/CollectionsHeader";
+import CollectionsViewHeader from "./components/CollectionsViewHeader";
+import DestinationsViewHeader from "./components/DestinationsViewHeader";
 import CollectionsListView from "./components/CollectionsListView";
 import DestinationsListView from "./components/DestinationsListView";
 import CreateCollectionDialog from "@/components/CreateCollectionDialog";
@@ -84,14 +85,22 @@ export default function CollectionsPage() {
 
   return (
     <div className="flex flex-col min-h-dvh pb-20">
-      <CollectionsHeader
-        currentView={currentView}
-        selectedCollection={selectedCollection}
-        onBack={backToCollections}
-        onCreateClick={() => setShowCreateDialog(true)}
-        onEditClick={() => setEditingCollection(selectedCollection?.id || null)}
-        canEdit={selectedCollection?.id !== LIKED_COLLECTION_ID}
-      />
+      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-muted/20">
+        <div className="px-6 py-4">
+          <div className="flex items-center justify-between">
+            {currentView === "collections" ? (
+              <CollectionsViewHeader onCreateClick={() => setShowCreateDialog(true)} />
+            ) : selectedCollection ? (
+              <DestinationsViewHeader
+                collection={selectedCollection}
+                onBack={backToCollections}
+                onEditClick={() => setEditingCollection(selectedCollection?.id || null)}
+                canEdit={selectedCollection?.id !== LIKED_COLLECTION_ID}
+              />
+            ) : null}
+          </div>
+        </div>
+      </div>
 
       <div className="flex-1 overflow-hidden">
         <AnimatePresence mode="wait">
