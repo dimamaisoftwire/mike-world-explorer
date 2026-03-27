@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { motion, useMotionValue, useTransform, PanInfo, AnimatePresence } from "framer-motion";
 import { Destination } from "@/lib/types";
 
@@ -20,7 +20,7 @@ export default function SwipeCard({
   isTop,
 }: SwipeCardProps) {
   const [expanded, setExpanded] = useState(false);
-  const isDragging = useRef(false);
+  const [isDragging, setIsDragging] = useState(false);
 
   const x = useMotionValue(0);
   const rotate = useTransform(x, [-200, 0, 200], [-15, 0, 15]);
@@ -28,11 +28,11 @@ export default function SwipeCard({
   const skipOpacity = useTransform(x, [-SWIPE_THRESHOLD, 0], [1, 0]);
 
   const handleDragStart = () => {
-    isDragging.current = true;
+    setIsDragging(true);
   };
 
   const handleDragEnd = (_: unknown, info: PanInfo) => {
-    isDragging.current = false;
+    setIsDragging(false);
     if (info.offset.x > SWIPE_THRESHOLD) {
       onSwipeRight();
     } else if (info.offset.x < -SWIPE_THRESHOLD) {
@@ -41,7 +41,7 @@ export default function SwipeCard({
   };
 
   const handleTap = () => {
-    if (!isDragging.current && isTop) {
+    if (!isDragging && isTop) {
       setExpanded((prev) => !prev);
     }
   };
