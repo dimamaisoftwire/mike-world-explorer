@@ -14,6 +14,9 @@ export interface Destination {
   country: string;
   description: string;
   imageUrl: string;
+  activities: string[];
+  bestTime: string;
+  tip: string;
 }
 
 export interface Collection {
