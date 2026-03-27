@@ -4,7 +4,6 @@ import { useState, FormEvent } from "react";
 import BottomSheet from "./BottomSheet";
 
 interface EditCollectionDialogProps {
-  isOpen: boolean;
   collectionName: string;
   onClose: () => void;
   onRename: (newName: string) => void;
@@ -12,7 +11,6 @@ interface EditCollectionDialogProps {
 }
 
 export default function EditCollectionDialog({
-  isOpen,
   collectionName,
   onClose,
   onRename,
@@ -46,7 +44,7 @@ export default function EditCollectionDialog({
   };
 
   return (
-    <BottomSheet isOpen={isOpen} onClose={handleClose}>
+    <BottomSheet onClose={handleClose}>
           
           {!showDeleteConfirm ? (
             <>

@@ -3,7 +3,6 @@
 import BottomSheet from "./BottomSheet";
 
 interface MoveItemDialogProps {
-  isOpen: boolean;
   itemName: string;
   currentCollection: string;
   collections: Array<{ id: string; name: string; emoji: string }>;
@@ -12,7 +11,6 @@ interface MoveItemDialogProps {
 }
 
 export default function MoveItemDialog({
-  isOpen,
   itemName,
   currentCollection,
   collections,
@@ -24,7 +22,7 @@ export default function MoveItemDialog({
   );
 
   return (
-    <BottomSheet isOpen={isOpen} onClose={onClose}>
+    <BottomSheet onClose={onClose}>
           
           <h3 className="text-lg font-bold text-foreground mb-2">
             Move to Collection

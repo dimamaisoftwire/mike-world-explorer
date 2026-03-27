@@ -128,15 +128,15 @@ export default function CollectionsPage() {
         </AnimatePresence>
       </div>
 
-      <CreateCollectionDialog
-        isOpen={showCreateDialog}
-        onClose={() => setShowCreateDialog(false)}
-        onCreate={handleCreateCollection}
-      />
+      {showCreateDialog && (
+        <CreateCollectionDialog
+          onClose={() => setShowCreateDialog(false)}
+          onCreate={handleCreateCollection}
+        />
+      )}
 
       {editingCollection && (
         <EditCollectionDialog
-          isOpen={true}
           collectionName={collectionsMap.get(editingCollection)?.name || ""}
           onClose={() => setEditingCollection(null)}
           onRename={handleRenameCollection}
@@ -144,22 +144,19 @@ export default function CollectionsPage() {
         />
       )}
 
-      <MoveItemDialog
-        isOpen={moveDialogState.destination !== null}
-        itemName={
-          moveDialogState.destination
-            ? `${moveDialogState.destination.name}, ${moveDialogState.destination.country}`
-            : ""
-        }
-        currentCollection={moveDialogState.fromCollection}
-        collections={mockCollections.map((c) => ({
-          id: c.id,
-          name: c.name,
-          emoji: c.emoji,
-        }))}
-        onClose={() => setMoveDialogState({ destination: null, fromCollection: "" })}
-        onMove={handleMoveItem}
-      />
+      {moveDialogState.destination && (
+        <MoveItemDialog
+          itemName={`${moveDialogState.destination.name}, ${moveDialogState.destination.country}`}
+          currentCollection={moveDialogState.fromCollection}
+          collections={mockCollections.map((c) => ({
+            id: c.id,
+            name: c.name,
+            emoji: c.emoji,
+          }))}
+          onClose={() => setMoveDialogState({ destination: null, fromCollection: "" })}
+          onMove={handleMoveItem}
+        />
+      )}
     </div>
   );
 }

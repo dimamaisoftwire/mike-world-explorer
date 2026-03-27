@@ -10,13 +10,11 @@ const BOTTOM_SHEET_SPRING = {
 };
 
 interface BottomSheetProps {
-  isOpen: boolean;
   onClose: () => void;
   children: ReactNode;
 }
 
 export default function BottomSheet({
-  isOpen,
   onClose,
   children,
 }: BottomSheetProps) {
@@ -25,8 +23,6 @@ export default function BottomSheet({
       onClose();
     }
   };
-
-  if (!isOpen) return null;
 
   return (
     <AnimatePresence>

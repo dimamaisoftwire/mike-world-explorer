@@ -4,13 +4,11 @@ import { useState, FormEvent } from "react";
 import BottomSheet from "./BottomSheet";
 
 interface CreateCollectionDialogProps {
-  isOpen: boolean;
   onClose: () => void;
   onCreate: (name: string) => void;
 }
 
 export default function CreateCollectionDialog({
-  isOpen,
   onClose,
   onCreate,
 }: CreateCollectionDialogProps) {
@@ -33,7 +31,7 @@ export default function CreateCollectionDialog({
   };
 
   return (
-    <BottomSheet isOpen={isOpen} onClose={handleClose}>
+    <BottomSheet onClose={handleClose}>
       <h2 className="text-xl font-bold text-foreground mb-4">
         Create Collection
       </h2>
