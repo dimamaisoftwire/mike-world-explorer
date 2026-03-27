@@ -41,10 +41,8 @@ export default function CollectionPopup({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        {/* Backdrop */}
         <div className="absolute inset-0 bg-black/30" onClick={onClose} />
 
-        {/* Bottom sheet */}
         <motion.div
           className="relative z-10 w-full max-w-md bg-card-bg rounded-t-2xl p-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))]"
           initial={{ y: "100%" }}
@@ -52,7 +50,6 @@ export default function CollectionPopup({
           exit={{ y: "100%" }}
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
         >
-          {/* Handle */}
           <div className="w-10 h-1 rounded-full bg-muted/30 mx-auto mb-4" />
 
           <div className="flex items-center gap-3 mb-4">

@@ -67,7 +67,6 @@ export default function SwipeCard({
         className="relative w-full h-full rounded-2xl overflow-hidden shadow-xl bg-card-bg"
         onClick={handleTap}
       >
-        {/* Image */}
         <img
           src={destination.imageUrl}
           alt={destination.name}
@@ -75,7 +74,6 @@ export default function SwipeCard({
           draggable={false}
         />
 
-        {/* Gradient overlay */}
         <motion.div
           className="absolute inset-0"
           animate={{
@@ -86,7 +84,6 @@ export default function SwipeCard({
           transition={{ duration: 0.3 }}
         />
 
-        {/* Like overlay */}
         <motion.div
           className="absolute top-8 left-6 border-4 border-green-500 rounded-xl px-4 py-2 -rotate-12"
           style={{ opacity: likeOpacity }}
@@ -94,7 +91,6 @@ export default function SwipeCard({
           <span className="text-green-500 text-3xl font-black">LIKE</span>
         </motion.div>
 
-        {/* Skip overlay */}
         <motion.div
           className="absolute top-8 right-6 border-4 border-red-500 rounded-xl px-4 py-2 rotate-12"
           style={{ opacity: skipOpacity }}
@@ -102,7 +98,6 @@ export default function SwipeCard({
           <span className="text-red-500 text-3xl font-black">NOPE</span>
         </motion.div>
 
-        {/* Tap hint */}
         {isTop && !expanded && (
           <div className="absolute top-4 left-0 right-0 flex justify-center pointer-events-none">
             <span className="text-white/50 text-xs font-medium bg-black/20 px-3 py-1 rounded-full">
@@ -111,7 +106,6 @@ export default function SwipeCard({
           </div>
         )}
 
-        {/* Card content */}
         <div className="absolute bottom-0 left-0 right-0 p-5 text-white overflow-y-auto max-h-[85%]">
           <h2 className="text-2xl font-bold">{destination.name}</h2>
           <p className="text-sm text-white/80 font-medium">{destination.country}</p>
@@ -119,7 +113,6 @@ export default function SwipeCard({
             {destination.description}
           </p>
 
-          {/* Expanded content */}
           <AnimatePresence>
             {expanded && (
               <motion.div
@@ -130,7 +123,6 @@ export default function SwipeCard({
                 className="overflow-hidden"
               >
                 <div className="mt-4 pt-4 border-t border-white/20 space-y-4">
-                  {/* Activities */}
                   <div>
                     <h3 className="text-xs font-semibold uppercase tracking-wide text-white/50 mb-2">
                       Things to do
@@ -148,7 +140,6 @@ export default function SwipeCard({
                     </ul>
                   </div>
 
-                  {/* Best time */}
                   <div>
                     <h3 className="text-xs font-semibold uppercase tracking-wide text-white/50 mb-1">
                       Best time to visit
@@ -156,7 +147,6 @@ export default function SwipeCard({
                     <p className="text-sm text-white/80">{destination.bestTime}</p>
                   </div>
 
-                  {/* Tip */}
                   <div>
                     <h3 className="text-xs font-semibold uppercase tracking-wide text-white/50 mb-1">
                       Top tip
