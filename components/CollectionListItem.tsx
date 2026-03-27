@@ -11,6 +11,7 @@ interface CollectionListItemProps {
   collection: Collection;
   onClick: () => void;
   onEdit?: () => void;
+  onPlanTrip?: () => void;
   likedCollectionId: string;
 }
 
@@ -18,6 +19,7 @@ export default function CollectionListItem({
   collection,
   onClick,
   onEdit,
+  onPlanTrip,
   likedCollectionId,
 }: CollectionListItemProps) {
   const isLiked = collection.id === likedCollectionId;
@@ -83,6 +85,18 @@ export default function CollectionListItem({
           </button>
         )}
       </div>
+
+      {collection.count > 0 && onPlanTrip && (
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onPlanTrip();
+          }}
+          className="mt-3 w-full py-2.5 rounded-full bg-accent/10 text-accent text-sm font-semibold hover:bg-accent/20 active:scale-[0.98] transition-all cursor-pointer min-h-[40px]"
+        >
+          ✈️ Plan trip
+        </button>
+      )}
     </motion.div>
   );
 }

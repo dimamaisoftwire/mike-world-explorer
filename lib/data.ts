@@ -1,4 +1,5 @@
-import { Destination, Preferences } from "./types";
+import { Destination, Itinerary, Preferences } from "./types";
+import { mockItineraries } from "./mockData";
 
 const mockDestinations: Destination[] = [
   {
@@ -117,4 +118,9 @@ const mockDestinations: Destination[] = [
 export async function getDestinations(_preferences?: Preferences): Promise<Destination[]> {
   // TODO: Replace with AI API call that uses preferences to generate personalised destinations
   return [...mockDestinations];
+}
+
+export async function getItinerary(collectionId: string): Promise<Itinerary | null> {
+  // TODO: Replace with AI API call that generates a personalised itinerary
+  return mockItineraries[collectionId] ?? null;
 }

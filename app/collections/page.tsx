@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
 import { Destination } from "@/lib/types";
 import { mockCollections } from "@/lib/mockData";
@@ -29,6 +30,7 @@ type MoveDialogState = {
 };
 
 export default function CollectionsPage() {
+  const router = useRouter();
   const [currentView, setCurrentView] = useState<ViewType>("collections");
   const [selectedCollection, setSelectedCollection] = useState<SelectedCollection | null>(null);
   const [showCreateDialog, setShowCreateDialog] = useState(false);
@@ -111,6 +113,7 @@ export default function CollectionsPage() {
               likedCollectionId={LIKED_COLLECTION_ID}
               onCollectionClick={openCollection}
               onEditClick={setEditingCollection}
+              onPlanTrip={(id) => router.push(`/itinerary?collectionId=${id}`)}
             />
           ) : (
             <DestinationsListView

@@ -11,6 +11,7 @@ interface CollectionsListViewProps {
   likedCollectionId: string;
   onCollectionClick: (collection: { id: string; name: string; emoji: string }) => void;
   onEditClick: (collectionId: string) => void;
+  onPlanTrip: (collectionId: string) => void;
 }
 
 export default function CollectionsListView({
@@ -19,6 +20,7 @@ export default function CollectionsListView({
   likedCollectionId,
   onCollectionClick,
   onEditClick,
+  onPlanTrip,
 }: CollectionsListViewProps) {
   return (
     <motion.div
@@ -47,6 +49,7 @@ export default function CollectionsListView({
                   ? () => onEditClick(collection.id)
                   : undefined
               }
+              onPlanTrip={() => onPlanTrip(collection.id)}
               likedCollectionId={likedCollectionId}
             />
           ))}

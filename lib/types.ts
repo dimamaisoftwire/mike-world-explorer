@@ -26,3 +26,21 @@ export interface Collection {
   count: number;
   destinations: Destination[];
 }
+
+export interface ItineraryStop {
+  destinationId: string;
+  name: string;
+  country: string;
+  days: number;
+  summary: string;
+  highlights: string[];
+  tip: string;
+}
+
+export interface Itinerary {
+  id: string;
+  collectionId: string;
+  totalDays: number;
+  totalBudget: string;
+  stops: ItineraryStop[];
+}

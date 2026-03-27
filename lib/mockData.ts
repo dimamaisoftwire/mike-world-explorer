@@ -1,4 +1,4 @@
-import { Destination, Collection } from "./types";
+import { Destination, Collection, Itinerary } from "./types";
 
 export const mockDestinations: Destination[] = [
   {
@@ -61,3 +61,120 @@ export const mockCollections: Collection[] = [
     destinations: [mockDestinations[2], mockDestinations[4]],
   },
 ];
+
+export const mockItineraries: Record<string, Itinerary> = {
+  europe: {
+    id: "itin-europe",
+    collectionId: "europe",
+    totalDays: 12,
+    totalBudget: "~$3,200",
+    stops: [
+      {
+        destinationId: "1",
+        name: "Paris",
+        country: "France",
+        days: 4,
+        summary: "Start your European adventure in the City of Light. Wander the charming streets of Le Marais, take in world-class art, and enjoy long café lunches.",
+        highlights: ["Eiffel Tower at sunset", "Louvre Museum morning visit", "Seine river cruise", "Montmartre neighbourhood walk"],
+        tip: "Buy a Paris Museum Pass for skip-the-line access to 50+ museums.",
+      },
+      {
+        destinationId: "4",
+        name: "Rome",
+        country: "Italy",
+        days: 4,
+        summary: "Fly south to the Eternal City. Explore layers of ancient history, Renaissance masterpieces, and some of the best food you'll ever eat.",
+        highlights: ["Colosseum & Roman Forum", "Vatican Museums & Sistine Chapel", "Trastevere dinner crawl", "Trevi Fountain at dawn"],
+        tip: "Wear comfortable shoes — Rome is best explored on foot and the cobblestones are unforgiving.",
+      },
+      {
+        destinationId: "5",
+        name: "Santorini",
+        country: "Greece",
+        days: 4,
+        summary: "End your trip on the iconic Greek island. Relax on volcanic beaches, watch legendary sunsets, and savour fresh seafood by the caldera.",
+        highlights: ["Oia sunset viewpoint", "Caldera boat tour", "Wine tasting in Megalochori", "Red Beach swim"],
+        tip: "Stay in Imerovigli for the same views as Oia at half the price.",
+      },
+    ],
+  },
+  beaches: {
+    id: "itin-beaches",
+    collectionId: "beaches",
+    totalDays: 8,
+    totalBudget: "~$1,800",
+    stops: [
+      {
+        destinationId: "3",
+        name: "Bali",
+        country: "Indonesia",
+        days: 5,
+        summary: "Kick off with tropical beaches, lush rice terraces, and vibrant surf culture on the Island of the Gods.",
+        highlights: ["Uluwatu cliff temple sunset", "Surf lesson in Canggu", "Tegallalang rice terraces", "Beach club day in Seminyak"],
+        tip: "Rent a scooter to get around — it's cheap, easy, and the best way to find hidden beaches.",
+      },
+      {
+        destinationId: "5",
+        name: "Santorini",
+        country: "Greece",
+        days: 3,
+        summary: "Swap the tropics for the Mediterranean. White-washed villages, dramatic cliffs, and crystal-clear Aegean waters await.",
+        highlights: ["Perissa black sand beach", "Catamaran sunset cruise", "Akrotiri archaeological site", "Fresh fish at Amoudi Bay"],
+        tip: "Visit in September for warm seas and thinner crowds than peak summer.",
+      },
+    ],
+  },
+  liked: {
+    id: "itin-liked",
+    collectionId: "liked",
+    totalDays: 21,
+    totalBudget: "~$5,500",
+    stops: [
+      {
+        destinationId: "1",
+        name: "Paris",
+        country: "France",
+        days: 4,
+        summary: "Begin in Paris — art, architecture, and incredible food set the tone for an epic world tour.",
+        highlights: ["Eiffel Tower", "Louvre Museum", "Seine cruise", "Café culture in Saint-Germain"],
+        tip: "Get a Navigo Découverte pass for unlimited metro rides all week.",
+      },
+      {
+        destinationId: "2",
+        name: "Tokyo",
+        country: "Japan",
+        days: 5,
+        summary: "Fly east to Tokyo where ancient temples sit alongside neon-lit skyscrapers. The food alone is worth the trip.",
+        highlights: ["Shibuya crossing", "Tsukiji Outer Market", "Meiji Shrine", "Akihabara electric town"],
+        tip: "Get a Suica card at the airport — it works on all trains, buses, and even vending machines.",
+      },
+      {
+        destinationId: "3",
+        name: "Bali",
+        country: "Indonesia",
+        days: 4,
+        summary: "Head south to Bali for tropical beaches, spiritual temples, and the most relaxing leg of your journey.",
+        highlights: ["Ubud monkey forest", "Tegallalang rice terraces", "Uluwatu sunset", "Seminyak beach clubs"],
+        tip: "Book a private driver for day trips — it's surprisingly affordable and way easier than self-driving.",
+      },
+      {
+        destinationId: "4",
+        name: "Rome",
+        country: "Italy",
+        days: 4,
+        summary: "Return to Europe for Roman history, Vatican art, and pasta that will ruin all other pasta forever.",
+        highlights: ["Colosseum tour", "Vatican Museums", "Trastevere evening walk", "Gelato on every corner"],
+        tip: "Book Vatican tickets online — the walk-up queue can be 3+ hours.",
+      },
+      {
+        destinationId: "5",
+        name: "Santorini",
+        country: "Greece",
+        days: 4,
+        summary: "Finish your world tour on the stunning cliffs of Santorini. Sunsets, wine, and the deep blue Aegean.",
+        highlights: ["Oia sunset", "Caldera boat trip", "Wine tasting", "Fira to Oia hike"],
+        tip: "Take the public bus between towns — it's €2 and runs frequently.",
+      },
+    ],
+  },
+};
